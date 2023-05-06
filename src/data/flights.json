@@ -1,0 +1,42 @@
+[
+    {
+      "id": "1",
+      "flightNumber": "AI202",
+      "from": "New York",
+      "to": "Los Angeles",
+      "date": "2023-05-08",
+      "departureTime": "11:00",
+      "arrivalTime": "14:00",
+      "duration": "3 hours",
+      "price": "250",
+      "seats": 50,
+      "availableSeats": 40
+    },
+    {
+      "id": "2",
+      "flightNumber": "BA101",
+      "from": "London",
+      "to": "Paris",
+      "date": "2023-05-09",
+      "departureTime": "09:00",
+      "arrivalTime": "11:00",
+      "duration": "2 hours",
+      "price": "150",
+      "seats": 30,
+      "availableSeats": 10
+    },
+    {
+      "id": "3",
+      "flightNumber": "UA303",
+      "from": "Chicago",
+      "to": "Miami",
+      "date": "2023-05-10",
+      "departureTime": "12:00",
+      "arrivalTime": "16:00",
+      "duration": "4 hours",
+      "price": "350",
+      "seats": 80,
+      "availableSeats": 60
+    }
+  ]
+  
