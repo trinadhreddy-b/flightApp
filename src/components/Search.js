@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
+
 function SearchResults({ flights }) {
   const [selectedFlight, setSelectedFlight] = useState(null);
+  
   const navigate = useNavigate();
   const handleBook = () => {
     navigate(`/booking/${selectedFlight.id}`);

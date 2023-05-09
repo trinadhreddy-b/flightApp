@@ -1,0 +1,21 @@
+.hero-image {
+    background-image: url("../assets/hero.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: calc(100vh - 64px);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .search-form {
+    margin: 0 auto;
+    max-width: 400px;
+  }
+  
+  .radio-form {
+    display: flex;
+    flex-direction: row;
+  }
+  

@@ -1,24 +1,30 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home"
-import Search from "./components/Search";
-import Booking from "./components/Booking";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Home from "./components/Home";
+
+import Booking from "./components/Flights";
 import AdminDashboard from "./components/AdminDashboard";
+
+import { ThemeProvider } from "@emotion/react";
+import theme from "./theme";
+import Flights from "./components/Flights";
+import Login from "./components/Login";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/search" component={Search} />
-        <Route exact path="/booking" component={Booking} />
-        <Route exact path="/admin" component={AdminDashboard} />
-      </Routes>
-      
-    </Router>
     
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/flights" element={<Flights />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/booking" element={<Booking />} />
+          <Route exact path="/admin" element={<AdminDashboard />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
