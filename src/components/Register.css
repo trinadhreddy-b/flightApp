@@ -20,10 +20,12 @@
 .link {
     font-weight: 700;
     text-decoration: none;
+    
 }
 
 .link:focus {
     color: #00a278;
+    
 }
 
 .link:active {

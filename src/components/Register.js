@@ -1,23 +1,23 @@
 import React from 'react'
 import Header from './Header';
 import Footer from './Footer';
-import { Box,Grid,Paper,TextField,Button, Typography } from '@mui/material';
+import { Box,Grid,Paper,TextField,Button,Typography } from '@mui/material';
 import { useState } from 'react';
-
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { enqueueSnackbar } from 'notistack';
 
 function Login() {
-
     const navigate=useNavigate();
+    
     const [inputVal,setInputVal]=useState({
-      username: "",
-      password: "",  
-    });
+        username: "",
+        password: "",
+        confirmPassword: ""
+    
+      });
     const clickHandler=()=>{
-        localStorage.setItem("username",inputVal.username);
-        enqueueSnackbar("User logged in successfully",{variant:"success"});
-        navigate('/');
+      enqueueSnackbar("Registered sucessfully",{variant:"success"});
+      navigate("/login");
     };
 
     const handleOnChange=(e)=>{
@@ -36,13 +36,13 @@ function Login() {
           justifyContent="space-between"
           minHeight="100vh"
         >
-          <Header loginPage />
+          <Header registerPage />
           <Box className="content">
           <div className="hero-image">
           <Grid container className="login-form" sx={{p:2}} justifyContent="flex-end">
           <Paper sx={{ p: 2 }}>
             
-            <Typography variant="h5" color="primary">Login</Typography>
+            <Typography variant="h5" color="primary">Register</Typography>
             <Grid item xs={12} marginTop={2}>
               <TextField
                 id="username"
@@ -68,13 +68,25 @@ function Login() {
               />
               </Grid>
               <Grid item xs={12} marginTop={2}>
-              <Button  variant="contained" onClick={clickHandler}>LOGIN</Button>               
+              <TextField
+                id="confirmPassword"
+                variant="outlined"
+                onChange={handleOnChange}
+                label="Confirm password"
+                name="confirmPassword"
+                type="password"
+                fullWidth
+                placeholder="Retype password"
+              />
+              </Grid>
+              <Grid item xs={12} marginTop={2}>
+               <Button variant="contained" onClick={clickHandler}>REGISTER NOW</Button>
                </Grid>
                <Grid item xs={12}>
               <p className="secondary-action">
-              Dont have an account?{" "}
-                 <Link to="/register">
-                 Register now
+              Already have an account?{" "}
+                 <Link to="/login">
+                 Login
                  </Link>
               </p>
               </Grid>

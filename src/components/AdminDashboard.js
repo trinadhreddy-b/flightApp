@@ -1,222 +1,180 @@
-// import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-// import flightsData from "../data/flights.json";
+import React, { useState, useEffect, useContext } from "react";
 
-// function AdminDashboard() {
-//   const [bookingsToday, setBookingsToday] = useState(0);
-//   const [emptySeatsToday, setEmptySeatsToday] = useState(0);
+import { FlightsContext } from "../context/FlightsProvider";
 
-//   // Calculate the number of bookings and empty seats for today
-//   const today = new Date().toLocaleDateString();
-//   let bookingsCount = 0;
-//   let emptySeatsCount = 0;
-//   console.log(flightsData);
-//   for (const flight of flightsData) {
-//     if (flight.date === today) {
-//       bookingsCount += flight.seats - flight.availableSeats;
-//       emptySeatsCount += flight.availableSeats;
-//     }
-//   }
-//   setBookingsToday(bookingsCount);
-//   setEmptySeatsToday(emptySeatsCount);
-
-//   return (
-//     <div className="container my-5">
-//       <h2>Admin Dashboard</h2>
-//       <div className="card mb-3">
-//         <div className="card-header">
-//           <strong>Bookings Today:</strong> {bookingsToday}
-//         </div>
-//         <div className="card-body">
-//           <h5 className="card-title">Flight-wise listing</h5>
-//           <table className="table table-striped">
-//             <thead>
-//               <tr>
-//                 <th>Flight Number</th>
-//                 <th>From</th>
-//                 <th>To</th>
-//                 <th>Date</th>
-//                 <th>Bookings</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {flightsData.map((flight) => {
-//                 if (flight.date === today) {
-//                   return (
-//                     <tr key={flight.id}>
-//                       <td>{flight.flightNumber}</td>
-//                       <td>{flight.from}</td>
-//                       <td>{flight.to}</td>
-//                       <td>{flight.date}</td>
-//                       <td>{flight.seats - flight.availableSeats}</td>
-//                     </tr>
-//                   );
-//                 }
-//                 else{
-//                   return null;
-//                 }
-//               }
-//              )}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//       <div className="card">
-//         <div className="card-header">
-//           <strong>Empty Seats Today:</strong> {emptySeatsToday}
-//         </div>
-//         <div className="card-body">
-//           <h5 className="card-title">Flight-wise listing</h5>
-//           <table className="table table-striped">
-//             <thead>
-//               <tr>
-//                 <th>Flight Number</th>
-//                 <th>From</th>
-//                 <th>To</th>
-//                 <th>Date</th>
-//                 <th>Empty Seats</th>
-//                 <th>Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {flightsData.map((flight) => {
-//                 if (flight.date === today) {
-//                   return (
-//                     <tr key={flight.id}>
-//                       <td>{flight.flightNumber}</td>
-//                       <td>{flight.from}</td>
-//                       <td>{flight.to}</td>
-//                       <td>{flight.date}</td>
-//                       <td>{flight.availableSeats}</td>
-//                       <td>
-//                         <Link
-//                           to={`/admin/edit/${flight.id}`}
-//                           className="btn btn-sm btn-primary"
-//                         >
-//                           Edit
-//                         </Link>
-//                       </td>
-//                     </tr>
-//                   );
-//                 }
-//                 else{
-//                   return null;
-//                 }
-//               })}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default AdminDashboard;
-
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import flightsData from "../data/flights.json";
+import {
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TextField,
+  Box,
+  Stack,
+} from "@mui/material";
+import Header from "./Header";
+import Footer from "./Footer";
+import AdminLogin from "./AdminLogin";
+// import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
   const [bookingsToday, setBookingsToday] = useState(0);
   const [emptySeatsToday, setEmptySeatsToday] = useState(0);
+  const [isAdminLoggedIn, setAdminLoggedIn] = useState(false);
+  const [flightsData] = useContext(FlightsContext);
+  const [date,setDate]=useState("")
+  
+  // const navigate=useNavigate();
 
   useEffect(() => {
     // Calculate the number of bookings and empty seats for today
-    const today = new Date().toLocaleDateString();
+    
     let bookingsCount = 0;
     let emptySeatsCount = 0;
     for (const flight of flightsData) {
-      if (flight.date === today) {
-        bookingsCount += flight.seats - flight.availableSeats;
+      if (flight.departureDate === date) {
+        bookingsCount += flight.totalSeats - flight.availableSeats;
         emptySeatsCount += flight.availableSeats;
       }
     }
     setBookingsToday(bookingsCount);
     setEmptySeatsToday(emptySeatsCount);
-  }, []);
+  }, [date,flightsData]);
 
+    const handleDateUpdate=(e)=>{
+      setDate(e.target.value)
+    }
   return (
-    <div className="container my-5">
-      <h2>Admin Dashboard</h2>
-      <div className="card mb-3">
-        <div className="card-header">
-          <strong>Bookings Today:</strong> {bookingsToday}
-        </div>
-        <div className="card-body">
-          <h5 className="card-title">Flight-wise listing</h5>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Flight Number</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Date</th>
-                <th>Bookings</th>
-              </tr>
-            </thead>
-            <tbody>
-              {flightsData.map((flight) => {
-                if (flight.date === new Date().toLocaleDateString()) {
-                  return (
-                    <tr key={flight.id}>
-                      <td>{flight.flightNumber}</td>
-                      <td>{flight.from}</td>
-                      <td>{flight.to}</td>
-                      <td>{flight.date}</td>
-                      <td>{flight.seats - flight.availableSeats}</td>
-                    </tr>
-                  );
-                }
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div className="card">
-        <div className="card-header">
-          <strong>Empty Seats Today:</strong> {emptySeatsToday}
-        </div>
-        <div className="card-body">
-          <h5 className="card-title">Flight-wise listing</h5>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Flight Number</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Date</th>
-                <th>Empty Seats</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {flightsData.map((flight) => {
-                if (flight.date === new Date().toLocaleDateString()) {
-                  return (
-                    <tr key={flight.id}>
-                      <td>{flight.flightNumber}</td>
-                      <td>{flight.from}</td>
-                      <td>{flight.to}</td>
-                      <td>{flight.date}</td>
-                      <td>{flight.availableSeats}</td>
-                      <td>
-                        <Link
-                          to={`/admin/edit/${flight.id}`}
-                          className="btn btn-sm btn-primary"
-                        >
-                          Edit
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                }
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <>
+      {!isAdminLoggedIn ? (
+        <AdminLogin setAdminLoggedIn={setAdminLoggedIn} />
+      ) : (
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+          minHeight="100vh"
+        >
+          <Header setAdminLoggedIn={setAdminLoggedIn} loggedIn />
+          <div className="container">
+            <Stack direction="row" justifyContent="center">
+              <Typography
+                variant="h4"
+                component="h2"
+                gutterBottom
+                color="primary"
+              >
+                Admin Dashboard
+              </Typography>
+              <TextField sx={{marginTop:2}}
+                  id="date"
+                  label="Report Date"
+                  variant="outlined"
+                  fullWidth
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleDateUpdate}
+                />
+            </Stack>
+            <Box minWidth={100}>
+              <Card variant="outlined" className="card">
+                <CardHeader
+                  title={`Bookings Today: ${bookingsToday}`}
+                  className="cardHeader"
+                />
+
+                <CardContent>
+                  <Typography variant="h6" component="h3" className="cardTitle">
+                    Flight-wise listing
+                  </Typography>
+
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Flight Number</TableCell>
+                        <TableCell>From</TableCell>
+                        <TableCell>To</TableCell>
+                        <TableCell>Date</TableCell>
+                        <TableCell>Bookings</TableCell>
+                      </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                      {flightsData.map((flight) => {
+                        if (flight.date === date) {
+                          return (
+                            <TableRow key={flight.id}>
+                              <TableCell>{flight.flightNumber}</TableCell>
+                              <TableCell>{flight.from}</TableCell>
+                              <TableCell>{flight.to}</TableCell>
+                              <TableCell>{flight.date}</TableCell>
+                              <TableCell>
+                                {flight.seats - flight.availableSeats}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </Box>
+            <Card variant="outlined" className="Card">
+              <CardHeader
+                title={`Empty Seats Today: ${emptySeatsToday}`}
+                className="cardHeader"
+              />
+
+              <CardContent>
+                <Typography variant="h6" component="h3" className="cardTitle">
+                  Flight-wise listing
+                </Typography>
+
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Flight Number</TableCell>
+                      <TableCell>From</TableCell>
+                      <TableCell>To</TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Empty Seats</TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {flightsData.map((flight) => {
+                      if (flight.departureDate === date) {
+                        return (
+                          <TableRow key={flight.id}>
+                            <TableCell>{flight.id}</TableCell>
+                            <TableCell>{flight.fromCityName}</TableCell>
+                            <TableCell>{flight.toCityName}</TableCell>
+                            <TableCell>{flight.departureDate}</TableCell>
+                            <TableCell>{flight.availableSeats}</TableCell>
+                          </TableRow>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+          <Footer />
+        </Box>
+      )}
+    </>
   );
 }
 

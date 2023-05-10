@@ -15,6 +15,7 @@ import Footer from "./Footer";
 import "./Home.css";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import { enqueueSnackbar } from "notistack";
 
 
 const cities = {
@@ -23,8 +24,6 @@ const cities = {
   BLR: "Bengaluru",
   HYD: "Hyderabad",
   MAA: "Chennai",
-  CCU: "Kolkata",
-  AMD: "Ahmedabad",
   };
 
 function Home() {
@@ -59,14 +58,20 @@ function Home() {
     setPassengers(event.target.value);
   }
   const searchFlight=()=>{
-    const searchData = {tripType, fromCity, toCity, departureDate, returnDate };
+
+    if(localStorage.getItem("username")){
+    const searchData = {tripType, fromCity, toCity, departureDate, returnDate,passengers };
     navigate('/flights', { state: searchData });
+    }
+    else{
+      enqueueSnackbar("Kindly login first",{variant:"info"});
+    }
     
   }
 
   return (
       <>
-      <Header />
+      <Header homePage />
       <Box>
       <div className="hero-image">
         <Grid item xs={12} sm={6} md={4} className="search-form">

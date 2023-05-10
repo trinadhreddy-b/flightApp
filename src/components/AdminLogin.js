@@ -4,20 +4,20 @@ import Footer from './Footer';
 import { Box,Grid,Paper,TextField,Button, Typography } from '@mui/material';
 import { useState } from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
-import { enqueueSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function AdminLogin({setAdminLoggedIn}) {
 
     const navigate=useNavigate();
     const [inputVal,setInputVal]=useState({
-      username: "",
-      password: "",  
+      username: "admin",
+      password: "123456",  
     });
     const clickHandler=()=>{
-        localStorage.setItem("username",inputVal.username);
-        enqueueSnackbar("User logged in successfully",{variant:"success"});
-        navigate('/');
+      
+        navigate('/admin')
+        setAdminLoggedIn(true);
+
     };
 
     const handleOnChange=(e)=>{
@@ -36,7 +36,7 @@ function Login() {
           justifyContent="space-between"
           minHeight="100vh"
         >
-          <Header loginPage />
+          <Header adminPage />
           <Box className="content">
           <div className="hero-image">
           <Grid container className="login-form" sx={{p:2}} justifyContent="flex-end">
@@ -68,17 +68,8 @@ function Login() {
               />
               </Grid>
               <Grid item xs={12} marginTop={2}>
-              <Button  variant="contained" onClick={clickHandler}>LOGIN</Button>               
-               </Grid>
-               <Grid item xs={12}>
-              <p className="secondary-action">
-              Dont have an account?{" "}
-                 <Link to="/register">
-                 Register now
-                 </Link>
-              </p>
-              </Grid>
-              
+              <Button  variant="contained" onClick={clickHandler}>ADMIN LOGIN</Button>               
+               </Grid>              
             </Paper>
             </Grid>
           </div>
@@ -88,4 +79,4 @@ function Login() {
       );
     };
     
-    export default Login;
+    export default AdminLogin;
